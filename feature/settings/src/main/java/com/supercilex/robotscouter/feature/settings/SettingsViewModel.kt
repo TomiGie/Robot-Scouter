@@ -9,10 +9,8 @@ import com.supercilex.robotscouter.core.RobotScouter
 import com.supercilex.robotscouter.core.await
 import com.supercilex.robotscouter.core.data.ViewModelBase
 import com.supercilex.robotscouter.core.data.cleanup
-import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.withContext
 
 internal class SettingsViewModel : ViewModelBase<Unit?>() {
     private val _signOutListener = MutableLiveData<Any?>()
@@ -26,7 +24,7 @@ internal class SettingsViewModel : ViewModelBase<Unit?>() {
                 cleanup()
                 Glide.get(RobotScouter).clearMemory()
 
-                withContext(CommonPool) { AuthUI.getInstance().signOut(RobotScouter).await() }
+                AuthUI.getInstance().signOut(RobotScouter).await()
                 _signOutListener.value = null
             } catch (e: Exception) {
                 _signOutListener.value = e

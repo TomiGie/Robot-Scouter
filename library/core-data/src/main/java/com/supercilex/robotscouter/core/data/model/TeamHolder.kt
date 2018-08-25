@@ -12,9 +12,9 @@ import com.supercilex.robotscouter.core.data.isSignedIn
 import com.supercilex.robotscouter.core.data.teams
 import com.supercilex.robotscouter.core.data.uid
 import com.supercilex.robotscouter.core.data.waitForChange
-import com.supercilex.robotscouter.core.logFailures
 import com.supercilex.robotscouter.core.model.Team
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 
 class TeamHolder : ViewModelBase<Bundle>(), ChangeEventListenerBase {
     private val _teamListener = UniqueMutableLiveData<Team?>()
@@ -26,17 +26,17 @@ class TeamHolder : ViewModelBase<Bundle>(), ChangeEventListenerBase {
         val team = args.getTeam()
         if (isSignedIn && team.owners.contains(uid)) {
             if (team.id.isBlank()) {
-                async {
+                launch(UI) {
                     for (potentialTeam in teams.waitForChange()) {
                         if (team.number == potentialTeam.number) {
-                            _teamListener.postValue(potentialTeam.copy())
-                            return@async
+                            _teamListener.setValue(potentialTeam.copy())
+                            return@launch
                         }
                     }
 
                     team.add()
-                    _teamListener.postValue(team.copy())
-                }.logFailures()
+                    _teamListener.setValue(team.copy())
+                }
             } else {
                 _teamListener.setValue(team)
             }
