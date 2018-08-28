@@ -16,7 +16,7 @@ object Config {
         val android = "com.android.tools.build:gradle:3.3.0-alpha07"
         val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 
-        val google = "com.google.gms:google-services:4.0.2"
+        val google = "com.google.gms:google-services:4.1.0"
         val firebase = "com.google.firebase:firebase-plugins:1.1.5"
         val fabric = "io.fabric.tools:gradle:1.25.4"
         val publishing = "com.github.Triple-T:gradle-play-publisher:860be50bec"
